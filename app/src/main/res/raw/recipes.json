@@ -1,0 +1,213 @@
+[
+  {
+    "name": "Bananen Smoothie",
+    "preparation_time": "5 min",
+    "calories": "150 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1110095-7/Bananensmoothie-met-honing-en-citroen_1110095-7-0_560x560",
+    "cost_effectiveness": 2,
+    "vegetarian": true,
+    "vegan": true,
+    "halal": true,
+    "ingredients": [
+      { "amount": "2", "name": "bananen" },
+      { "amount": "200 ml", "name": "amandelmelk" },
+      { "amount": "1 tl", "name": "honing" }
+    ],
+    "neccesities": ["blender"],
+    "steps": [
+      { "step_number": 1, "title": "Ingrediënten toevoegen", "text": "Doe de bananen, amandelmelk en honing in de blender." },
+      { "step_number": 2, "title": "Blenden", "text": "Blend alles tot een gladde massa." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Havermoutrepen",
+    "preparation_time": "20 min",
+    "calories": "180 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1475117-7/Te-lekkere-havermoutrepen_1475117-7-0_560x560",
+    "cost_effectiveness": 3,
+    "vegetarian": true,
+    "vegan": false,
+    "halal": true,
+    "ingredients": [
+      { "amount": "200 g", "name": "havermout" },
+      { "amount": "50 g", "name": "rozijnen" },
+      { "amount": "100 ml", "name": "honing" },
+      { "amount": "1", "name": "ei" }
+    ],
+    "neccesities": ["oven", "mengkom"],
+    "steps": [
+      { "step_number": 1, "title": "Ingrediënten mengen", "text": "Meng havermout, rozijnen, honing en ei in een kom." },
+      { "step_number": 2, "title": "In de oven", "text": "Verdeel het mengsel over een bakplaat en bak 15 minuten op 180°C." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Groentesticks met hummus",
+    "preparation_time": "10 min",
+    "calories": "100 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1000556/Groentesticks-met-gember-kerriedip-_1000556-0_560x560",
+    "cost_effectiveness": 2,
+    "vegetarian": true,
+    "vegan": true,
+    "halal": true,
+    "ingredients": [
+      { "amount": "1", "name": "komkommer" },
+      { "amount": "2", "name": "wortels" },
+      { "amount": "200 g", "name": "hummus" }
+    ],
+    "neccesities": ["mes"],
+    "steps": [
+      { "step_number": 1, "title": "Snijden", "text": "Snijd de komkommer en wortels in dunne sticks." },
+      { "step_number": 2, "title": "Serveren", "text": "Serveer de groentesticks met hummus." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Chia Pudding",
+    "preparation_time": "20 min",
+    "calories": "200 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1474639-7/Gezonde-chiazaad-pudding_1474639-7-0_560x560",
+    "cost_effectiveness": 2,
+    "vegetarian": true,
+    "vegan": true,
+    "halal": true,
+    "ingredients": [
+      { "amount": "50 g", "name": "chiazaad" },
+      { "amount": "250 ml", "name": "kokosmelk" },
+      { "amount": "1 el", "name": "ahornsiroop" }
+    ],
+    "neccesities": ["kom"],
+    "steps": [
+      { "step_number": 1, "title": "Mengen", "text": "Meng chiazaad, kokosmelk en ahornsiroop in een kom." },
+      { "step_number": 2, "title": "Koelen", "text": "Laat het mengsel minimaal 4 uur in de koelkast opstijven." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Avocado Toast",
+    "preparation_time": "5 min",
+    "calories": "250 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1000477/Toast-met-avocado,-edamameboontjes-en-Aziatische-spread_1000477-0_560x560",
+    "cost_effectiveness": 2,
+    "vegetarian": true,
+    "vegan": true,
+    "halal": true,
+    "ingredients": [
+      { "amount": "1", "name": "avocado" },
+      { "amount": "2 sneetjes", "name": "volkorenbrood" },
+      { "amount": "1 snufje", "name": "zout" }
+    ],
+    "neccesities": ["mes"],
+    "steps": [
+      { "step_number": 1, "title": "Avocado bereiden", "text": "Prak de avocado en voeg een snufje zout toe." },
+      { "step_number": 2, "title": "Serveren", "text": "Besmeer de sneetjes brood met de geprakte avocado." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Fruit Salade",
+    "preparation_time": "10 min",
+    "calories": "120 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1479521-7/Salade-met-feta-fruit-en-honingmosterddressing_1479521-7-0_560x560",
+    "cost_effectiveness": 3,
+    "vegetarian": true,
+    "vegan": true,
+    "halal": true,
+    "ingredients": [
+      { "amount": "1", "name": "appel" },
+      { "amount": "1", "name": "banaan" },
+      { "amount": "100 g", "name": "aardbeien" }
+    ],
+    "neccesities": ["mes"],
+    "steps": [
+      { "step_number": 1, "title": "Snijden", "text": "Snijd de appel, banaan en aardbeien in stukjes." },
+      { "step_number": 2, "title": "Mixen", "text": "Meng alles in een kom." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Geroosterde Kikkererwten",
+    "preparation_time": "30 min",
+    "calories": "140 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1447205-7/Geroosterde-pittige-kikkererwten_1447205-7-0_560x560",
+    "cost_effectiveness": 2,
+    "vegetarian": true,
+    "vegan": true,
+    "halal": true,
+    "ingredients": [
+      { "amount": "400 g", "name": "kikkererwten" },
+      { "amount": "1 el", "name": "olijfolie" },
+      { "amount": "1 tl", "name": "paprikapoeder" }
+    ],
+    "neccesities": ["oven", "bakplaat"],
+    "steps": [
+      { "step_number": 1, "title": "Kruiden", "text": "Meng kikkererwten met olijfolie en paprikapoeder." },
+      { "step_number": 2, "title": "Roosteren", "text": "Rooster 25 minuten op 200°C in de oven." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Notenmix",
+    "preparation_time": "2 min",
+    "calories": "300 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/763584-7/Gekarameliseerde-noten_763584-7-0_560x560",
+    "cost_effectiveness": 3,
+    "vegetarian": true,
+    "vegan": true,
+    "halal": true,
+    "ingredients": [
+      { "amount": "50 g", "name": "amandelen" },
+      { "amount": "50 g", "name": "walnoten" },
+      { "amount": "50 g", "name": "cashewnoten" }
+    ],
+    "neccesities": [],
+    "steps": [
+      { "step_number": 1, "title": "Mixen", "text": "Meng de noten in een kom." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Gezonde Muffins",
+    "preparation_time": "25 min",
+    "calories": "200 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1433227-7/Blueberry-muffins_1433227-7-0_560x560",
+    "cost_effectiveness": 2,
+    "vegetarian": true,
+    "vegan": false,
+    "halal": true,
+    "ingredients": [
+      { "amount": "200 g", "name": "volkorenmeel" },
+      { "amount": "100 g", "name": "bessen" },
+      { "amount": "1", "name": "ei" }
+    ],
+    "neccesities": ["oven", "muffinvorm"],
+    "steps": [
+      { "step_number": 1, "title": "Deeg maken", "text": "Meng meel, bessen en ei tot een beslag." },
+      { "step_number": 2, "title": "Bakken", "text": "Bak 20 minuten op 180°C in de oven." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  },
+  {
+    "name": "Groene Smoothie",
+    "preparation_time": "5 min",
+    "calories": "110 kcal",
+    "image_url": "https://recipe-service.prod.cloud.jumbo.com/recipes/1433375-7/Groene-smoothie_1433375-7-0_560x560",
+    "cost_effectiveness": 2,
+    "vegetarian": true,
+    "vegan": true,
+    "halal": true,
+    "ingredients": [
+      { "amount": "1", "name": "banaan" },
+      { "amount": "50 g", "name": "spinazie" },
+      { "amount": "200 ml", "name": "kokoswater" }
+    ],
+    "neccesities": ["blender"],
+    "steps": [
+      { "step_number": 1, "title": "Blenden", "text": "Doe banaan, spinazie en kokoswater in de blender." },
+      { "step_number": 2, "title": "Serveren", "text": "Blend tot een gladde smoothie en serveer." }
+    ],
+    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  }
+]
+
