@@ -1,6 +1,5 @@
 package nl.inholland.healthysnackapp.ui.recipeDetail
 
-import android.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +10,7 @@ import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowLeft
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +24,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,7 +35,8 @@ import coil.compose.AsyncImage
 fun RecipeDetailPage(
     recipeId: Int,
     viewModel: RecipeDetailViewModel,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onStartRecipeClick: (id: Int, step: Int) -> Unit
 ) {
     // Load recipe data
     LaunchedEffect(recipeId) {
@@ -144,8 +146,24 @@ fun RecipeDetailPage(
 
                     // Start Recipe Button
                     Button(
-                        onClick = { /* TODO: Start recipe */ },
-                        modifier = Modifier.fillMaxWidth()
+                        onClick = { onStartRecipeClick(recipeId, 1) },
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                            .shadow(
+                                elevation = 4.dp,
+                                shape = RoundedCornerShape(50.dp),
+                                clip = false
+                            )
+                            .clip(RoundedCornerShape(50.dp)),
+                        shape = RoundedCornerShape(50.dp),
+                        colors = ButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                            disabledContainerColor = Color.Gray,
+                            disabledContentColor = Color.White
+                        ),
                     ) {
                         Text(text = "Start recept")
                     }

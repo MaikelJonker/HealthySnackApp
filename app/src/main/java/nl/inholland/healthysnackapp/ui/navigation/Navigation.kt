@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,6 +22,8 @@ import nl.inholland.healthysnackapp.ui.products.ProductViewModel
 import nl.inholland.healthysnackapp.ui.profile.ProfilePage
 import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeDetailPage
 import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeDetailViewModel
+import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeRating
+import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeStep
 import nl.inholland.healthysnackapp.ui.shoppingList.ShoppingListPage
 
 @Composable
@@ -34,9 +37,6 @@ fun App() {
     val currentRoute = navBackStackEntry?.destination?.route
     Scaffold(
         modifier = Modifier.background(color = MaterialTheme.colorScheme.background ),
-        topBar = {
-            // TODO top app bar
-        },
         bottomBar = {
             NavBar(navController = navController)
         }
@@ -62,7 +62,40 @@ fun App() {
                 RecipeDetailPage(
                     recipeId = id,
                     viewModel = recipeDetailViewModel,
-                    onBackClick = { navController.popBackStack() }
+                    onBackClick = { navController.popBackStack() },
+                    onStartRecipeClick = { id, step -> navController.navigate("recipes/$id/$step") }
+                )
+            }
+            composable(
+                route = "recipes/{id}/{step}",
+                arguments = listOf(
+                    navArgument("id") { type = NavType.IntType },
+                    navArgument("step") { type = NavType.IntType }
+                )
+            ){ backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id") ?: 0
+                val step = backStackEntry.arguments?.getInt("step") ?: 1
+
+                RecipeStep(
+                    viewModel = recipeDetailViewModel,
+                    recipeId = id,
+                    recipeStep = step,
+                    onBackClick = { navController.popBackStack() },
+                    onNextClick = { id, step -> navController.navigate("recipes/$id/$step") },
+                    onRatingsClick = { id -> navController.navigate("recipes/$id/rating") }
+                )
+            }
+            composable(
+                route = "recipes/{id}/rating",
+                arguments = listOf(
+                    navArgument("id") { type = NavType.IntType },
+                )
+            ){ backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id") ?: 0
+
+                RecipeRating(
+                    viewModel = recipeDetailViewModel,
+                    recipeId = id
                 )
             }
             composable("home") {
