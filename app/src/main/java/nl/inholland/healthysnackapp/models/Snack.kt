@@ -3,6 +3,7 @@ package nl.inholland.healthysnackapp.models
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Snack(
+    val id: Int,
     val name: String,
     @JsonProperty("preparation_time") val preparationTime: String,
     val calories: String,

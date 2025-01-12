@@ -35,6 +35,7 @@ datastorePreferences = "1.1.1"
 
 # Additional
 jackson = "2.15.0"
+accompanist = "0.30.1" #
 
 [libraries]
 # Default
@@ -84,6 +85,7 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 # Additional
 jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jackson" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version = "1.9.0" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 
 [plugins]
 # Default

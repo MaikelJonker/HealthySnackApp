@@ -91,4 +91,5 @@ dependencies {
     implementation(libs.jackson.module.kotlin)
     implementation(libs.jackson.databind)
     implementation(libs.kotlin.stdlib)
+    implementation(libs.accompanist.systemuicontroller)
 }

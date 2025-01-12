@@ -19,6 +19,8 @@ import nl.inholland.healthysnackapp.ui.home.HomeViewModel
 import nl.inholland.healthysnackapp.ui.products.ProductList
 import nl.inholland.healthysnackapp.ui.products.ProductViewModel
 import nl.inholland.healthysnackapp.ui.profile.ProfilePage
+import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeDetailPage
+import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeDetailViewModel
 import nl.inholland.healthysnackapp.ui.shoppingList.ShoppingListPage
 
 @Composable
@@ -26,6 +28,7 @@ fun App() {
     val navController = rememberNavController()
     val productViewModel: ProductViewModel = hiltViewModel()
     val homeViewModel: HomeViewModel = hiltViewModel()
+    val recipeDetailViewModel: RecipeDetailViewModel = hiltViewModel()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -46,21 +49,31 @@ fun App() {
             composable("products") {
                 ProductList(productViewModel)
             }
-
             composable(
-                route = "detail/{id}",
+                route = "products/{id}",
                 arguments = listOf(navArgument("id") { type = NavType.IntType })
             ) {
             }
-
-            composable("home") {
-                HomePage(homeViewModel)
+            composable(
+                route = "recipes/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id") ?: 0
+                RecipeDetailPage(
+                    recipeId = id,
+                    viewModel = recipeDetailViewModel,
+                    onBackClick = { navController.popBackStack() }
+                )
             }
-
+            composable("home") {
+                HomePage(
+                    viewModel = homeViewModel,
+                    toDetail = { id -> navController.navigate("recipes/$id") }
+                )
+            }
             composable("shoppingList"){
                 ShoppingListPage()
             }
-
             composable("profile") {
                 ProfilePage()
             }
