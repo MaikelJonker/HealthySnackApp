@@ -19,7 +19,7 @@
       { "step_number": 1, "title": "Ingrediënten toevoegen", "text": "Doe de bananen, amandelmelk en honing in de blender." },
       { "step_number": 2, "title": "Blenden", "text": "Blend alles tot een gladde massa." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 2,
@@ -42,7 +42,7 @@
       { "step_number": 1, "title": "Ingrediënten mengen", "text": "Meng havermout, rozijnen, honing en ei in een kom." },
       { "step_number": 2, "title": "In de oven", "text": "Verdeel het mengsel over een bakplaat en bak 15 minuten op 180°C." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 3,
@@ -64,7 +64,7 @@
       { "step_number": 1, "title": "Snijden", "text": "Snijd de komkommer en wortels in dunne sticks." },
       { "step_number": 2, "title": "Serveren", "text": "Serveer de groentesticks met hummus." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 4,
@@ -86,7 +86,7 @@
       { "step_number": 1, "title": "Mengen", "text": "Meng chiazaad, kokosmelk en ahornsiroop in een kom." },
       { "step_number": 2, "title": "Koelen", "text": "Laat het mengsel minimaal 4 uur in de koelkast opstijven." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 5,
@@ -108,7 +108,7 @@
       { "step_number": 1, "title": "Avocado bereiden", "text": "Prak de avocado en voeg een snufje zout toe." },
       { "step_number": 2, "title": "Serveren", "text": "Besmeer de sneetjes brood met de geprakte avocado." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 6,
@@ -130,7 +130,7 @@
       { "step_number": 1, "title": "Snijden", "text": "Snijd de appel, banaan en aardbeien in stukjes." },
       { "step_number": 2, "title": "Mixen", "text": "Meng alles in een kom." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 7,
@@ -152,7 +152,7 @@
       { "step_number": 1, "title": "Kruiden", "text": "Meng kikkererwten met olijfolie en paprikapoeder." },
       { "step_number": 2, "title": "Roosteren", "text": "Rooster 25 minuten op 200°C in de oven." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 8,
@@ -173,7 +173,7 @@
     "steps": [
       { "step_number": 1, "title": "Mixen", "text": "Meng de noten in een kom." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 9,
@@ -195,7 +195,7 @@
       { "step_number": 1, "title": "Deeg maken", "text": "Meng meel, bessen en ei tot een beslag." },
       { "step_number": 2, "title": "Bakken", "text": "Bak 20 minuten op 180°C in de oven." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   },
   {
     "id": 10,
@@ -217,7 +217,7 @@
       { "step_number": 1, "title": "Blenden", "text": "Doe banaan, spinazie en kokoswater in de blender." },
       { "step_number": 2, "title": "Serveren", "text": "Blend tot een gladde smoothie en serveer." }
     ],
-    "video_url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   }
 ]
 

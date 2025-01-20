@@ -1,8 +1,9 @@
-package nl.inholland.healthysnackapp.ui.products
+package nl.inholland.healthysnackapp.ui.productDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -11,16 +12,21 @@ import nl.inholland.healthysnackapp.models.Product
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductViewModel @Inject constructor(
+class ProductDetailViewModel @Inject constructor(
     private val productService: ProductService
 ) : ViewModel() {
 
     private val _product = MutableStateFlow<Product?>(null)
     val product: StateFlow<Product?> get() = _product
 
-    fun getProductList(){
+    fun getProduct(barcode: String){
         viewModelScope.launch {
-            _product.value = productService.getProductByBarCode("3017624010701")
+            try {
+                _product.value = productService.getProductByBarCode(barcode)
+            }
+            catch(e: Exception){
+                _product.value = null
+            }
         }
     }
 }

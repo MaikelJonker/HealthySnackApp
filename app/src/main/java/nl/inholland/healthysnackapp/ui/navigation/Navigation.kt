@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,12 +15,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import nl.inholland.healthysnackapp.ui.home.HomePage
-import nl.inholland.healthysnackapp.ui.home.HomeViewModel
+import nl.inholland.healthysnackapp.ui.productDetail.ProductDetailPage
 import nl.inholland.healthysnackapp.ui.products.ProductList
-import nl.inholland.healthysnackapp.ui.products.ProductViewModel
 import nl.inholland.healthysnackapp.ui.profile.ProfilePage
 import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeDetailPage
-import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeDetailViewModel
 import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeRating
 import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeStep
 import nl.inholland.healthysnackapp.ui.shoppingList.ShoppingListPage
@@ -29,9 +26,6 @@ import nl.inholland.healthysnackapp.ui.shoppingList.ShoppingListPage
 @Composable
 fun App() {
     val navController = rememberNavController()
-    val productViewModel: ProductViewModel = hiltViewModel()
-    val homeViewModel: HomeViewModel = hiltViewModel()
-    val recipeDetailViewModel: RecipeDetailViewModel = hiltViewModel()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -47,12 +41,20 @@ fun App() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("products") {
-                ProductList(productViewModel)
+                ProductList(
+                    toProductDetail = { barcode -> navController.navigate("products/$barcode") },
+                    viewModel = hiltViewModel()
+                )
             }
             composable(
-                route = "products/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType })
-            ) {
+                route = "products/{barcode}",
+                arguments = listOf(navArgument("barcode") { type = NavType.StringType })
+            ) {backStackEntry ->
+                val id = backStackEntry.arguments?.getString("barcode") ?:0
+                ProductDetailPage(
+                    barcode = id.toString(),
+                    viewModel = hiltViewModel()
+                )
             }
             composable(
                 route = "recipes/{id}",
@@ -61,7 +63,7 @@ fun App() {
                 val id = backStackEntry.arguments?.getInt("id") ?: 0
                 RecipeDetailPage(
                     recipeId = id,
-                    viewModel = recipeDetailViewModel,
+                    viewModel = hiltViewModel(),
                     onBackClick = { navController.popBackStack() },
                     onStartRecipeClick = { id, step -> navController.navigate("recipes/$id/$step") }
                 )
@@ -77,7 +79,7 @@ fun App() {
                 val step = backStackEntry.arguments?.getInt("step") ?: 1
 
                 RecipeStep(
-                    viewModel = recipeDetailViewModel,
+                    viewModel = hiltViewModel(),
                     recipeId = id,
                     recipeStep = step,
                     onBackClick = { navController.popBackStack() },
@@ -94,13 +96,13 @@ fun App() {
                 val id = backStackEntry.arguments?.getInt("id") ?: 0
 
                 RecipeRating(
-                    viewModel = recipeDetailViewModel,
+                    viewModel = hiltViewModel(),
                     recipeId = id
                 )
             }
             composable("home") {
                 HomePage(
-                    viewModel = homeViewModel,
+                    viewModel = hiltViewModel(),
                     toDetail = { id -> navController.navigate("recipes/$id") }
                 )
             }

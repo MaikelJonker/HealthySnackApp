@@ -14,7 +14,7 @@ private val LightColorScheme = lightColorScheme(
     onSecondary = Color.Black, //Black for on buttons
     surface = Color(0xFF273A31), // Background color for components
     onSurface = Color(0xFF000000), // Black for text
-    background = Color(0xFFE9E9E9), // General background
+    background = Color(0xFFEFF5F2), // General background
 )
 
 

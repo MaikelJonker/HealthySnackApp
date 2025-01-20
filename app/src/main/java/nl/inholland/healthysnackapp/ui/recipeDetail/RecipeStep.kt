@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nl.inholland.healthysnackapp.ui.cells.VideoPlayer
 
 @Composable
 fun RecipeStep(
@@ -79,12 +80,12 @@ fun RecipeStep(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(203.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color.Gray),
+                    .background(Color.Black),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Video Placeholder") //TODO: add video player
+                VideoPlayer(videoUrl = recipe?.videoUrl ?: "")
             }
 
             Spacer(modifier = Modifier.height(16.dp))

@@ -4,7 +4,7 @@ data class ProductResponse(
     val code: String?,
     val product: SubProductResponse?,
     val status: Int?,
-    val statusVerbose: String?
+    val status_verbose: String?
 )
 
 data class SubProductResponse(
@@ -15,18 +15,18 @@ data class SubProductResponse(
     val labels: String?,
     val quantity: String?,
     val packaging: String?,
-    val ingredientsText: String?,
+    val ingredients_text_en: String?,
     val image_url: String?,
     val nutriments: Nutriments?,
-    val ingredientsAnalysisTags: List<String>?,
+    val ingredients_analysis_tags: List<String>?,
     val countries: String?,
-    val countriesTags: List<String>?,
-    val ecoscoreGrade: String?,
-    val ecoscoreScore: Double?,
+    val countries_tags: List<String>?,
+    val ecoscore_grade: String?,
+    val ecoscore_score: Double?,
     val nutriscore_grade: String?,
     val allergens: String?,
-    val additivesTags: List<String>?,
-    val languagesTags: List<String>?
+    val additives_tags: List<String>?,
+    val languages_tags: List<String>?
 )
 
 data class Nutriments(

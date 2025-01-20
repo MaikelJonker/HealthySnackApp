@@ -92,4 +92,11 @@ dependencies {
     implementation(libs.jackson.databind)
     implementation(libs.kotlin.stdlib)
     implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.ui)
+    implementation(libs.camera.core)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+    implementation(libs.mlkit.barcode.scanning)
+    implementation(libs.camera.camera2)
 }
