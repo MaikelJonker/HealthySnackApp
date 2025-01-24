@@ -53,6 +53,7 @@ fun App() {
                 val id = backStackEntry.arguments?.getString("barcode") ?:0
                 ProductDetailPage(
                     barcode = id.toString(),
+                    onBackClick = { navController.popBackStack() },
                     viewModel = hiltViewModel()
                 )
             }
@@ -107,7 +108,9 @@ fun App() {
                 )
             }
             composable("shoppingList"){
-                ShoppingListPage()
+                ShoppingListPage(
+                    viewModel = hiltViewModel()
+                )
             }
             composable("profile") {
                 ProfilePage()

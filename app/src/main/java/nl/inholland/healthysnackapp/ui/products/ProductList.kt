@@ -46,40 +46,45 @@ fun ProductList(
             Toast.makeText(context, "Camera permission is required to scan barcodes", Toast.LENGTH_LONG).show()
         }
     }
+    Column(
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (product != null) {
-            Column {
-                ProductCell(product!!, modifier = Modifier, toProductDetail = toProductDetail)
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (product != null) {
+                Column {
+                    ProductCell(product!!, modifier = Modifier, toProductDetail = toProductDetail)
+                }
             }
-        }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 72.dp),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            Button(
-                onClick = {
-                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
-                modifier = Modifier.size(72.dp)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 72.dp),
+                contentAlignment = Alignment.BottomCenter
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Build,
-                    contentDescription = "Scan Barcode",
-                    tint = Color.White
-                )
+                Button(
+                    onClick = {
+                        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
+                    modifier = Modifier.size(72.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Build,
+                        contentDescription = "Scan Barcode",
+                        tint = Color.White
+                    )
+                }
             }
-        }
 
-        if (cameraPermissionState.value) {
-            BarcodeScannerDialog(onDismiss = { cameraPermissionState.value = false }) { barcodeData ->
-                coroutineScope.launch(Dispatchers.Main) {
-                    println("Scanned Data: $barcodeData")
-                    toProductDetail(barcodeData)
+            if (cameraPermissionState.value) {
+                BarcodeScannerDialog(onDismiss = {
+                    cameraPermissionState.value = false
+                }) { barcodeData ->
+                    coroutineScope.launch(Dispatchers.Main) {
+                        println("Scanned Data: $barcodeData")
+                        toProductDetail(barcodeData)
+                    }
                 }
             }
         }

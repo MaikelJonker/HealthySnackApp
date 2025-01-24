@@ -1,6 +1,5 @@
 package nl.inholland.healthysnackapp.ui.cells
 
-import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier

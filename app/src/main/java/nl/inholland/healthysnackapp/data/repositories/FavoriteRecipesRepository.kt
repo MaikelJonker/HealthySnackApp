@@ -9,24 +9,24 @@ import kotlinx.coroutines.flow.map
 import kotlin.collections.minus
 import kotlin.collections.plus
 
-val Context.dataStore by preferencesDataStore(name = "recipe_favourites")
+val Context.recipeDataStore by preferencesDataStore(name = "favorite_recipes")
 
 class FavoriteRecipesRepository(private val context: Context) {
 
-    private val FAVORITES_KEY = stringSetPreferencesKey("favorite_recipe_ids")
+    private val favoritesKey = stringSetPreferencesKey("favorite_recipe_ids")
 
-    val favouritesFlow: Flow<Set<String>> = context.dataStore.data
+    val favouritesFlow: Flow<Set<String>> = context.recipeDataStore.data
         .map { preferences ->
-            preferences[FAVORITES_KEY] ?: emptySet()
+            preferences[favoritesKey] ?: emptySet()
         }
 
     suspend fun toggleFavorite(recipeId: String) {
-        context.dataStore.edit { preferences ->
-            val currentFavorites = preferences[FAVORITES_KEY] ?: emptySet()
+        context.recipeDataStore.edit { preferences ->
+            val currentFavorites = preferences[favoritesKey] ?: emptySet()
             if (currentFavorites.contains(recipeId)) {
-                preferences[FAVORITES_KEY] = currentFavorites - recipeId
+                preferences[favoritesKey] = currentFavorites - recipeId
             } else {
-                preferences[FAVORITES_KEY] = currentFavorites + recipeId
+                preferences[favoritesKey] = currentFavorites + recipeId
             }
         }
     }

@@ -9,6 +9,11 @@ class SnackService @Inject constructor(
 ) {
 
     fun getAllSnacks(): List<Snack> {
-        return repository.getAllSnacks()
+        val snacks: List<Snack> = repository.getAllSnacks()
+        return if(snacks.isEmpty()) {
+            emptyList()
+        } else{
+            snacks
+        }
     }
 }

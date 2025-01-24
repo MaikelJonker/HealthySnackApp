@@ -10,17 +10,18 @@ import javax.inject.Inject
 class ProductMapper @Inject constructor(){
     fun map(response: ProductResponse): Product {
         return Product(
-            name = response.product?.product_name!!,
-            barcode = response.code!!,
-            allergies = response.product.allergens!!,
-            nutrients = response.product.nutriments?.toNutrientList() ?: emptyList(),
-            ingredients = response.product.ingredients_text_en.toIngredientsList(),
-            categories = response.product.categories?.split(",")?.map { it.trim() } ?: emptyList(),
-            isVegan = response.product.ingredients_analysis_tags?.contains("en:vegan") == true,
-            isVegetarian = response.product.ingredients_analysis_tags?.contains("en:vegetarian") == true,
-            nutriScore = response.product.nutriscore_grade ?: "Unknown",
-            weight = (response.product.quantity) ?: "Unknown",
-            imageUrl = response.product.image_url ?: "No image found",
+            name = response.product?.product_name.toString(),
+            barcode = response.code.toString(),
+            allergies = response.product?.allergens?.replace("en:", " ").toString(),
+            nutrients = response.product?.nutriments?.toNutrientList() ?: emptyList(),
+            ingredients = response.product?.ingredients_text_en.toIngredientsList(),
+            categories = response.product?.categories?.split(",")?.map { it.trim() }
+                ?: emptyList(),
+            isVegan = response.product?.ingredients_analysis_tags?.contains("en:vegan") == true,
+            isVegetarian = response.product?.ingredients_analysis_tags?.contains("en:vegetarian") == true,
+            nutriScore = response.product?.nutriscore_grade ?: "Unknown",
+            weight = (response.product?.quantity) ?: "Unknown",
+            imageUrl = response.product?.image_url ?: "No image found",
         )
     }
 
