@@ -4,30 +4,34 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlin.collections.minus
-import kotlin.collections.plus
+import javax.inject.Inject
+import javax.inject.Singleton
 
-val Context.recipeDataStore by preferencesDataStore(name = "favorite_recipes")
 
-class FavoriteRecipesRepository(private val context: Context) {
+private val Context.dataStore by preferencesDataStore(name = "favorites_store")
 
-    private val favoritesKey = stringSetPreferencesKey("favorite_recipe_ids")
+@Singleton
+class FavoriteRecipesRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
-    val favouritesFlow: Flow<Set<String>> = context.recipeDataStore.data
-        .map { preferences ->
-            preferences[favoritesKey] ?: emptySet()
-        }
+    private val FAVORITE_RECIPES_KEY = stringSetPreferencesKey("favorite_recipes")
 
-    suspend fun toggleFavorite(recipeId: String) {
-        context.recipeDataStore.edit { preferences ->
-            val currentFavorites = preferences[favoritesKey] ?: emptySet()
-            if (currentFavorites.contains(recipeId)) {
-                preferences[favoritesKey] = currentFavorites - recipeId
+    val favoriteRecipes: Flow<Set<String>> = context.dataStore.data.map { preferences ->
+        preferences[FAVORITE_RECIPES_KEY] ?: emptySet()
+    }
+
+    suspend fun toggleFavoriteRecipe(recipeId: String) {
+        context.dataStore.edit { preferences ->
+            val currentFavorites = preferences[FAVORITE_RECIPES_KEY] ?: emptySet()
+            val updatedFavorites = if (currentFavorites.contains(recipeId)) {
+                currentFavorites - recipeId // Remove the recipe if it's already favorited
             } else {
-                preferences[favoritesKey] = currentFavorites + recipeId
+                currentFavorites + recipeId // Add the recipe to favorites
             }
+            preferences[FAVORITE_RECIPES_KEY] = updatedFavorites
         }
     }
 }
+

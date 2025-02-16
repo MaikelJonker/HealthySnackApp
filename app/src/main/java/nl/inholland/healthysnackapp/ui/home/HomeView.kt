@@ -6,17 +6,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import nl.inholland.healthysnackapp.data.services.SnackService
-import nl.inholland.healthysnackapp.models.Snack
+import nl.inholland.healthysnackapp.data.services.RecipeService
+import nl.inholland.healthysnackapp.models.Recipe
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val service: SnackService
+    private val service: RecipeService
 ) : ViewModel() {
 
-    private val _snacks = MutableStateFlow<List<Snack>>(emptyList())
-    val snacks: StateFlow<List<Snack>> = _snacks
+    private val _recipes = MutableStateFlow<List<Recipe>>(emptyList())
+    val recipes: StateFlow<List<Recipe>> = _recipes
 
     init {
         loadRecipes()
@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadRecipes() {
         viewModelScope.launch {
-            _snacks.value = service.getAllSnacks()
+            _recipes.value = service.getAllRecipes()
         }
     }
 }

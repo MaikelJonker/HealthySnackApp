@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "password": "123",
+    "preferences": {
+      "language": "English",
+      "halal": true,
+      "vegan": false,
+      "vegetarian": true
+    },
+    "children": [
+      {
+        "name": "Emma Johnson",
+        "allergies": ["Peanuts", "Dairy"]
+      },
+      {
+        "name": "Liam Johnson",
+        "allergies": []
+      }
+    ],
+    "pictureUrl": "https://example.com/images/alice.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Michael Smith",
+    "email": "michael.smith@example.com",
+    "password": "123",
+    "preferences": {
+      "language": "French",
+      "halal": false,
+      "vegan": true,
+      "vegetarian": true
+    },
+    "children": [
+      {
+        "name": "Sophia Smith",
+        "allergies": ["Gluten"]
+      }
+    ],
+    "pictureUrl": "https://example.com/images/michael.jpg"
+  }
+]

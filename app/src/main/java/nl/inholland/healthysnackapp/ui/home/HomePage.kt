@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import nl.inholland.healthysnackapp.models.Snack
+import nl.inholland.healthysnackapp.models.Recipe
 
 @Composable
 fun HomePage(viewModel: HomeViewModel, toDetail: (Int) -> Unit) {
@@ -174,7 +174,7 @@ fun TabSection() {
 
 @Composable
 fun SnackGrid(viewModel: HomeViewModel, toDetail: (Int) -> Unit) {
-    val snacks by viewModel.snacks.collectAsState()
+    val recipes by viewModel.recipes.collectAsState()
 
     // Define the colors and subcolors for the cards
     val colors = listOf(
@@ -191,16 +191,16 @@ fun SnackGrid(viewModel: HomeViewModel, toDetail: (Int) -> Unit) {
         Color(0xFF5AF6E9)  // Subcolor 4 for color 4
     )
 
-    // Split the snacks into chunks of 2 for a 2-column grid
-    snacks.chunked(2).forEachIndexed { rowIndex, rowSnacks ->
+    // Split the recipes into chunks of 2 for a 2-column grid
+    recipes.chunked(2).forEachIndexed { rowIndex, rowRecipes ->
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            rowSnacks.forEachIndexed { index, snack ->
+            rowRecipes.forEachIndexed { index, recipe ->
                 val color = colors[(rowIndex * 2 + index) % colors.size]
                 val subColor = subColors[(rowIndex * 2 + index) % subColors.size]
-                SnackCard(snack = snack, color = color, subColor = subColor, modifier = Modifier.weight(1f), toDetail)
+                RecipeCard(recipe = recipe, color = color, subColor = subColor, modifier = Modifier.weight(1f), toDetail)
             }
         }
         Spacer(modifier = Modifier.height(10.dp))
@@ -208,9 +208,9 @@ fun SnackGrid(viewModel: HomeViewModel, toDetail: (Int) -> Unit) {
 }
 
 @Composable
-fun SnackCard(snack: Snack, color: Color, subColor: Color, modifier: Modifier, toDetail: (Int) -> Unit) {
+fun RecipeCard(recipe: Recipe, color: Color, subColor: Color, modifier: Modifier, toDetail: (Int) -> Unit) {
     Card(
-        onClick = { toDetail(snack.id) },
+        onClick = { toDetail(recipe.id) },
         colors = CardDefaults.cardColors(
             containerColor = color
         ),
@@ -227,14 +227,14 @@ fun SnackCard(snack: Snack, color: Color, subColor: Color, modifier: Modifier, t
             Text(
                 modifier = Modifier.fillMaxWidth().weight(1f),
                 textAlign = TextAlign.Center,
-                text = snack.name,
+                text = recipe.name,
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(10.dp))
             AsyncImage(
-                model = snack.imageUrl,
+                model = recipe.imageUrl,
                 contentDescription = "Snack Image",
                 modifier = Modifier
                     .size(100.dp)
@@ -245,8 +245,8 @@ fun SnackCard(snack: Snack, color: Color, subColor: Color, modifier: Modifier, t
                 modifier= Modifier.weight(1f),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                InfoText(snack.preparationTime, subColor, Modifier.weight(1f))
-                InfoText(snack.calories, subColor, Modifier.weight(1f))
+                InfoText(recipe.preparationTime, subColor, Modifier.weight(1f))
+                InfoText(recipe.calories, subColor, Modifier.weight(1f))
             }
         }
     }
