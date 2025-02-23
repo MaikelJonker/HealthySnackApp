@@ -18,11 +18,6 @@ data class RecipeResponse(
     val video_url: String
 )
 
-data class Ingredient(
-    val amount: String,
-    val name: String
-)
-
 data class Step(
     val step_number: Int,
     val title: String,

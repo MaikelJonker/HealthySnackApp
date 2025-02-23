@@ -99,4 +99,5 @@ dependencies {
     implementation(libs.camera.view)
     implementation(libs.mlkit.barcode.scanning)
     implementation(libs.camera.camera2)
+    implementation(libs.androidx.compose.icons.extended)
 }

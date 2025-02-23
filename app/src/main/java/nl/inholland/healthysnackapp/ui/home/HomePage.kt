@@ -33,9 +33,13 @@ import coil.compose.AsyncImage
 import nl.inholland.healthysnackapp.models.Recipe
 
 @Composable
-fun HomePage(viewModel: HomeViewModel, toDetail: (Int) -> Unit) {
+fun HomePage(
+    viewModel: HomeViewModel,
+    toDetail: (Int) -> Unit,
+    toLogin: () -> Unit
+) {
     Column() {
-        HeaderWithSearchBar()
+        HeaderWithSearchBar(toLogin)
         LazyColumn(contentPadding = PaddingValues(20.dp)) {
             item{
                 // TODO: No backend support for filtering
@@ -55,7 +59,7 @@ fun HomePage(viewModel: HomeViewModel, toDetail: (Int) -> Unit) {
 }
 
 @Composable
-fun HeaderWithSearchBar() {
+fun HeaderWithSearchBar(toLogin: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,6 +79,9 @@ fun HeaderWithSearchBar() {
             style = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
                 textDecoration = TextDecoration.Underline
+            ),
+            modifier = Modifier.clickable(
+                onClick = { toLogin() }
             )
         )
 

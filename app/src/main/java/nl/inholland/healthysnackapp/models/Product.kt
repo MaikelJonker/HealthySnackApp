@@ -1,10 +1,5 @@
 package nl.inholland.healthysnackapp.models
 
-data class Nutrient(
-    val name: String,
-    val amount: String
-)
-
 data class Product(
     val name: String,
     val barcode: String,
@@ -17,4 +12,9 @@ data class Product(
     val nutriScore: String,
     val weight: String,
     val imageUrl: String
+)
+
+data class Nutrient(
+    val name: String,
+    val amount: String
 )

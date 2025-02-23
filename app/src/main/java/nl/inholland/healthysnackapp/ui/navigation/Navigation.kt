@@ -15,6 +15,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import nl.inholland.healthysnackapp.ui.home.HomePage
+import nl.inholland.healthysnackapp.ui.login.LoginPage
 import nl.inholland.healthysnackapp.ui.productDetail.ProductDetailPage
 import nl.inholland.healthysnackapp.ui.products.ProductList
 import nl.inholland.healthysnackapp.ui.profile.ProfilePage
@@ -104,7 +105,8 @@ fun App() {
             composable("home") {
                 HomePage(
                     viewModel = hiltViewModel(),
-                    toDetail = { id -> navController.navigate("recipes/$id") }
+                    toDetail = { id -> navController.navigate("recipes/$id") },
+                    toLogin = { navController.navigate("login") }
                 )
             }
             composable("shoppingList"){
@@ -113,7 +115,15 @@ fun App() {
                 )
             }
             composable("profile") {
-                ProfilePage()
+                ProfilePage(
+                    userId = 1,
+                    viewModel = hiltViewModel()
+                )
+            }
+            composable("login") {
+                LoginPage(
+                    //viewModel = hiltViewModel()
+                )
             }
         }
     }
