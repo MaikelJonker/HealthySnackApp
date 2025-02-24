@@ -33,7 +33,9 @@ fun App() {
     Scaffold(
         modifier = Modifier.background(color = MaterialTheme.colorScheme.background ),
         bottomBar = {
-            NavBar(navController = navController)
+            if (currentRoute != "login") { // Hide BottomBar on LoginPage
+                NavBar(navController = navController)
+            }
         }
     ) { innerPadding ->
         NavHost(
@@ -122,7 +124,8 @@ fun App() {
             }
             composable("login") {
                 LoginPage(
-                    //viewModel = hiltViewModel()
+                    viewModel = hiltViewModel(),
+                    onLoginSuccess = { id -> navController.navigate("home") } //TODO: go to home with userId
                 )
             }
         }

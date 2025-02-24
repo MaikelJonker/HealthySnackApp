@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.Image
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
@@ -31,14 +30,29 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginPage(
-    //viewModel: LoginViewModel
+    viewModel: LoginViewModel = hiltViewModel(),
+    onLoginSuccess: (String) -> Unit
 ) {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    // Collect login state
+    LaunchedEffect(viewModel.loginState) {
+        viewModel.loginState.collectLatest { state ->
+            when (state) {
+                is LoginState.Success -> onLoginSuccess(state.userId)
+                is LoginState.Error -> errorMessage = state.message
+                else -> {}
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -57,13 +71,12 @@ fun LoginPage(
                 .size(150.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(30.dp),
-            contentScale = ContentScale.Crop
+                .padding(30.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Welkom terug, Ahmet!", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Welkom!", fontSize = 22.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Leer nieuwe recepten kennen, bekijk wat je familieleden en vrienden delen en behoud een gezonde levensstijl.",
@@ -75,9 +88,9 @@ fun LoginPage(
 
         // Username field
         OutlinedTextField(
-            value = username,
-            onValueChange = { username = it },
-            label = { Text("Gebruikersnaam") },
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("E-mail") },
             leadingIcon = { Icon(Icons.Filled.Person, contentDescription = null) },
             modifier = Modifier.fillMaxWidth()
         )
@@ -101,12 +114,18 @@ fun LoginPage(
             modifier = Modifier.fillMaxWidth()
         )
 
+        // Error message (if login fails)
+        if (errorMessage != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = errorMessage!!, color = Color.Red, fontSize = 14.sp)
+        }
+
         Spacer(modifier = Modifier.height(24.dp))
 
         // Login Button
         Button(
-            onClick = { /* Handle login */ },
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
+            onClick = { viewModel.login(email, password) },
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -134,3 +153,4 @@ fun LoginPage(
         }
     }
 }
+
