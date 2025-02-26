@@ -1,18 +1,18 @@
 package nl.inholland.healthysnackapp.data.services
 
-import nl.inholland.healthysnackapp.data.modules.RecipeApi
-import nl.inholland.healthysnackapp.data.repositories.RecipeRepository
+import nl.inholland.healthysnackapp.data.modules.Api
+import nl.inholland.healthysnackapp.data.repositories.ApiRepository
 import nl.inholland.healthysnackapp.models.Recipe
 import nl.inholland.healthysnackapp.models.mappers.RecipeMapper
 import javax.inject.Inject
 
 class RecipeService @Inject constructor(
-    @RecipeApi private val recipeRepository: RecipeRepository,
+    @Api private val apiRepository: ApiRepository,
     private val recipeMapper: RecipeMapper
 ) {
 
     suspend fun getAllRecipes(): List<Recipe> {
-        val recipeListResponse = recipeRepository.getRecipes()
+        val recipeListResponse = apiRepository.getRecipes()
         return recipeMapper.mapList(recipeListResponse)
     }
 

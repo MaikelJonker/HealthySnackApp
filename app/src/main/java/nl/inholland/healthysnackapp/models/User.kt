@@ -12,9 +12,9 @@ data class User (
 
 data class UserPreferences(
     val language: String,
-    val halal: Boolean,
-    val vegan: Boolean,
-    val vegetarian: Boolean
+    var halal: Boolean,
+    var vegan: Boolean,
+    var vegetarian: Boolean
 )
 
 data class Child(

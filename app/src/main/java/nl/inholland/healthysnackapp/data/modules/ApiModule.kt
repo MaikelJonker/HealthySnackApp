@@ -8,7 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import nl.inholland.healthysnackapp.data.repositories.ProductRepository
-import nl.inholland.healthysnackapp.data.repositories.RecipeRepository
+import nl.inholland.healthysnackapp.data.repositories.ApiRepository
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.Date
@@ -20,7 +20,7 @@ annotation class ProductApi
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class RecipeApi
+annotation class Api
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -42,9 +42,9 @@ object ApiModule {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    @RecipeApi
+    @Api
     @Provides
-    fun provideRecipeRetrofit(moshi: Moshi): Retrofit = Retrofit.Builder()
+    fun provideApiRetrofit(moshi: Moshi): Retrofit = Retrofit.Builder()
         .baseUrl(recipeUrl)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
@@ -54,8 +54,8 @@ object ApiModule {
     fun provideProductRepository(@ProductApi retrofit: Retrofit): ProductRepository =
         retrofit.create(ProductRepository::class.java)
 
-    @RecipeApi
+    @Api
     @Provides
-    fun provideRecipeRepository(@RecipeApi retrofit: Retrofit): RecipeRepository =
-        retrofit.create(RecipeRepository::class.java)
+    fun provideApiRepository(@Api retrofit: Retrofit): ApiRepository =
+        retrofit.create(ApiRepository::class.java)
 }

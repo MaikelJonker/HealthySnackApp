@@ -1,16 +1,16 @@
 package nl.inholland.healthysnackapp.data.services
 
-import nl.inholland.healthysnackapp.data.modules.RecipeApi
-import nl.inholland.healthysnackapp.data.repositories.RecipeRepository
+import nl.inholland.healthysnackapp.data.modules.Api
+import nl.inholland.healthysnackapp.data.repositories.ApiRepository
 import nl.inholland.healthysnackapp.models.User
 import javax.inject.Inject
 
 class UserService @Inject constructor(
-    @RecipeApi private val recipeRepository: RecipeRepository
+    @Api private val apiRepository: ApiRepository
 ) {
 
     suspend fun getAllUsers(): List<User> {
-        return recipeRepository.getUsers()
+        return apiRepository.getUsers()
     }
 
     suspend fun login(email: String, password: String): User? {

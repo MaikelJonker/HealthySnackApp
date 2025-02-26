@@ -3,9 +3,9 @@ package nl.inholland.healthysnackapp.ui.profile
 import android.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -14,7 +14,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -25,42 +25,50 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.inholland.healthysnackapp.models.Child
 import nl.inholland.healthysnackapp.models.User
 import nl.inholland.healthysnackapp.models.UserPreferences
-import java.nio.file.WatchEvent
 
 @Composable
-fun ProfilePage(userId: Int, viewModel: ProfileViewModel) {
+fun ProfilePage(viewModel: ProfileViewModel, toHome: () -> Unit, toLogin: () -> Unit, toFaq: () -> Unit) {
 
-    val user by viewModel.getUser(userId).collectAsState(initial = null)
+    val user by viewModel.getUser().collectAsState(initial = null)
 
-    user?.let {
-        Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primary)) {
-            ProfileHeader(it)
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.background)
+    if(user == null){
+        NotLoggedIn(toLogin)
+    }
+    else {
+        user?.let {
+            Column(
+                modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primary)
             ) {
-                item{
-                    Spacer(modifier = Modifier.height(16.dp))
-                    FamilySection(it.children)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    PreferencesSection(it.preferences)
+                ProfileHeader(it, viewModel, toHome)
+                Spacer(modifier = Modifier.height(16.dp))
+                LazyColumn(
+                    modifier = Modifier
+                        .background(color = MaterialTheme.colorScheme.background)
+                ) {
+                    item {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        FamilySection(it.children)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        PreferencesSection(it.preferences, toFaq)
+                    }
                 }
             }
-        }
-    } ?: run {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
+        } ?: run {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
         }
     }
 }
 
 @Composable
-fun ProfileHeader(user: User) {
+fun ProfileHeader(user: User, viewModel: ProfileViewModel, toHome :() -> Unit) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -70,7 +78,7 @@ fun ProfileHeader(user: User) {
             .align(Alignment.End)
         ){
             Button(
-                onClick = { },
+                onClick = { viewModel.logout(toHome) },
                 colors = ButtonColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -165,24 +173,115 @@ fun FamilySection(children: List<Child>) {
 }
 
 @Composable
-fun PreferencesSection(preferences: UserPreferences) {
+fun PreferencesSection(preferences: UserPreferences, toFaq: () -> Unit) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text("Voorkeuren", fontWeight = FontWeight.Bold, fontSize = 18.sp)
         Spacer(modifier = Modifier.height(8.dp))
-        Text("Taal: ${preferences.language}", fontSize = 14.sp)
-        Row(verticalAlignment = Alignment.CenterVertically) {
+
+        // Language preference
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Taal:", fontSize = 14.sp)
+            Text(preferences.language, fontSize = 14.sp)
+        }
+
+        // Halal preference
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Toon enkel halal producten", fontSize = 14.sp)
             Switch(
                 checked = preferences.halal,
-                onCheckedChange = {}
+                onCheckedChange = {  }
             )
-            Text("Toon enkel halal producten")
         }
-        Row(verticalAlignment = Alignment.CenterVertically) {
+
+        // Vegan preference
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Toon enkel vegan producten", fontSize = 14.sp)
             Switch(
                 checked = preferences.vegan,
-                onCheckedChange = {}
+                onCheckedChange = {  }
             )
-            Text("Toon enkel vegan producten")
         }
+
+        // Vegetarian preference
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Toon enkel vegetarische producten", fontSize = 14.sp)
+            Switch(
+                checked = preferences.vegetarian,
+                onCheckedChange = {  }
+            )
+        }
+
+        Spacer(Modifier.height(10.dp))
+        Text("Veelgestelde vragen", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+
+        Text(
+            text = "FAQ>",
+            color = Color.Blue,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .padding(5.dp)
+                .clickable { toFaq() }
+        )
+    }
+}
+
+@Composable
+fun NotLoggedIn(toLogin: () -> Unit){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .height(50.dp)
+                .background(color = MaterialTheme.colorScheme.primary)
+                .fillMaxWidth()
+        ){
+            Text(
+                text = "Profile",
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            )
+        }
+        Spacer(Modifier.weight(1f))
+        Text(
+            text = "Je bent momenteel niet ingelogd"
+        )
+        Button(
+            onClick = { toLogin() },
+            colors = ButtonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                disabledContainerColor = Color.Gray,
+                disabledContentColor = Color.Gray
+            )
+        ) {
+            Text(
+                text = "Inloggen"
+            )
+        }
+        Spacer(Modifier.weight(1f))
     }
 }

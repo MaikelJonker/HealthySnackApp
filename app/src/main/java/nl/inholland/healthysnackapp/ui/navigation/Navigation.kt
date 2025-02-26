@@ -8,13 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import nl.inholland.healthysnackapp.data.UserInfo.SessionManager
+import nl.inholland.healthysnackapp.ui.faq.FaqPage
 import nl.inholland.healthysnackapp.ui.home.HomePage
+import nl.inholland.healthysnackapp.ui.login.CreateAccountPage
 import nl.inholland.healthysnackapp.ui.login.LoginPage
 import nl.inholland.healthysnackapp.ui.productDetail.ProductDetailPage
 import nl.inholland.healthysnackapp.ui.products.ProductList
@@ -25,15 +30,17 @@ import nl.inholland.healthysnackapp.ui.recipeDetail.RecipeStep
 import nl.inholland.healthysnackapp.ui.shoppingList.ShoppingListPage
 
 @Composable
-fun App() {
+fun App(sessionManager: SessionManager) {
     val navController = rememberNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    val isLoggedIn = sessionManager.getUserId() != null
     Scaffold(
         modifier = Modifier.background(color = MaterialTheme.colorScheme.background ),
         bottomBar = {
-            if (currentRoute != "login") { // Hide BottomBar on LoginPage
+            if (currentRoute != "login" && currentRoute != "createAccount") { // Hide BottomBar on LoginPage and CreateAccountPage
                 NavBar(navController = navController)
             }
         }
@@ -101,7 +108,8 @@ fun App() {
 
                 RecipeRating(
                     viewModel = hiltViewModel(),
-                    recipeId = id
+                    recipeId = id,
+                    onBackClick = { navController.popBackStack() }
                 )
             }
             composable("home") {
@@ -118,14 +126,27 @@ fun App() {
             }
             composable("profile") {
                 ProfilePage(
-                    userId = 1,
-                    viewModel = hiltViewModel()
+                    viewModel = hiltViewModel(),
+                    toHome = { navController.navigate("home") },
+                    toLogin = { navController.navigate("login") },
+                    toFaq = { navController.navigate("faq") }
                 )
             }
             composable("login") {
                 LoginPage(
                     viewModel = hiltViewModel(),
-                    onLoginSuccess = { id -> navController.navigate("home") } //TODO: go to home with userId
+                    onLoginSuccess = { id -> navController.navigate("home") },
+                    toCreateAccount = { navController.navigate("createAccount") }
+                )
+            }
+            composable("faq") {
+                FaqPage(
+                    viewModel = hiltViewModel()
+                )
+            }
+            composable("createAccount"){
+                CreateAccountPage(
+                    toLogin = { navController.navigate("login") }
                 )
             }
         }

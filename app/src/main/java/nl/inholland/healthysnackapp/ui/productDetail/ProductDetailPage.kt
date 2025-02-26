@@ -30,7 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import nl.inholland.healthysnackapp.models.Nutrient
@@ -68,10 +71,8 @@ fun ProductDetailPage(
                 Spacer(modifier = Modifier.height(15.dp))
 
                 Row {
-                    if (productData.isVegan || productData.isVegetarian) {
-                        ProductTags(productData)
-                        Spacer(modifier = Modifier.width(30.dp))
-                    }
+                    ProductTags(productData)
+                    Spacer(modifier = Modifier.width(30.dp))
                     AsyncImage(
                         model = productData.imageUrl,
                         contentDescription = "Product Image",
@@ -125,7 +126,6 @@ fun ProductDetailPage(
                         }
                     }
                 }
-
                 Spacer(Modifier.height(16.dp))
                 DetailedProductInformation(productData)
             }
@@ -177,9 +177,9 @@ fun NutritionalTable(nutrients: List<Nutrient>) {
 }
 
 @Composable
-fun ProductTags(productData: Product){
+fun ProductTags(product: Product){
     Column {
-        if (productData.isVegan) {
+        if (product.isVegan) {
             Text(
                 text = "Vegan",
                 color = MaterialTheme.colorScheme.onPrimary,
@@ -191,8 +191,7 @@ fun ProductTags(productData: Product){
                     .padding(8.dp)
             )
         }
-
-        if (productData.isVegetarian) {
+        if (product.isVegetarian) {
             Text(
                 text = "Vegetarian",
                 color = MaterialTheme.colorScheme.onPrimary,
@@ -204,11 +203,33 @@ fun ProductTags(productData: Product){
                     .padding(8.dp)
             )
         }
+        val nutriScore = product.nutriScore.uppercase() // Ensure uppercase
+        val nutriScoreColor = when (nutriScore) {
+            "A" -> Color(0xFF007F00) // Dark Green
+            "B" -> Color(0xFF60A917) // Light Green
+            "C" -> Color(0xFFFFC107) // Yellow
+            "D" -> Color(0xFFFF5722) // Orange
+            "E" -> Color(0xFFD32F2F) // Red
+            else -> Color.Gray // Default for unknown values
+        }
+        Text(
+            text = buildAnnotatedString {
+                append("Nutri-score: ") // Regular text
+                withStyle(style = SpanStyle(color = nutriScoreColor, fontWeight = FontWeight.Bold)) {
+                    append(nutriScore) // Colored letter
+                }
+            },
+            modifier = Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    shape = RoundedCornerShape(8.dp)
+                )
+        )
     }
 }
 
 @Composable
-fun DetailedProductInformation(productData: Product){
+fun DetailedProductInformation(product: Product){
     Column(
         Modifier.padding(16.dp)
     ) {
@@ -220,7 +241,7 @@ fun DetailedProductInformation(productData: Product){
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = productData.allergies,
+            text = product.allergies,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSecondary
         )
@@ -234,7 +255,7 @@ fun DetailedProductInformation(productData: Product){
             color = MaterialTheme.colorScheme.onSecondary
         )
         Spacer(modifier = Modifier.height(8.dp))
-        NutritionalTable(nutrients = productData.nutrients)
+        NutritionalTable(nutrients = product.nutrients)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -246,7 +267,7 @@ fun DetailedProductInformation(productData: Product){
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = productData.ingredients.joinToString(", ") { it.name },
+            text = product.ingredients.joinToString(", ") { it.name },
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSecondary
         )

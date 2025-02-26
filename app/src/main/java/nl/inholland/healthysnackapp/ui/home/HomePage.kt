@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import nl.inholland.healthysnackapp.models.Recipe
+import nl.inholland.healthysnackapp.models.User
+import nl.inholland.healthysnackapp.ui.cells.SearchBar
 
 @Composable
 fun HomePage(
@@ -38,8 +40,15 @@ fun HomePage(
     toDetail: (Int) -> Unit,
     toLogin: () -> Unit
 ) {
+    val user by viewModel.getUser().collectAsState(initial = null)
+
     Column() {
-        HeaderWithSearchBar(toLogin)
+        if(user != null) {
+            ProfileHeaderWithSearchBar(user!!)
+        }
+        else{
+            HeaderWithSearchBar(toLogin)
+        }
         LazyColumn(contentPadding = PaddingValues(20.dp)) {
             item{
                 // TODO: No backend support for filtering
@@ -55,6 +64,33 @@ fun HomePage(
                 SnackGrid(viewModel, toDetail)
             }
         }
+    }
+}
+
+@Composable
+fun ProfileHeaderWithSearchBar(user: User){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.primary)
+            .padding(16.dp)
+    ) {
+        // Header Text
+        Text(
+            text = "Goedemorgen, ${user.name}",
+            style = MaterialTheme.typography.titleLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontWeight = FontWeight.Bold
+            )
+        )
+        Text(
+            text = "Wat wil je vandaag bereiden?",
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
+                textDecoration = TextDecoration.Underline
+            )
+        )
+        SearchBar("", "Zoek op snack of ingrediënt", Modifier.padding(vertical = 10.dp))
     }
 }
 
@@ -75,7 +111,7 @@ fun HeaderWithSearchBar(toLogin: () -> Unit) {
             )
         )
         Text(
-            text = "Creëer een account om je app te personaliseren.",
+            text = "Creëer een account of log in om je app te personaliseren.",
             style = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
                 textDecoration = TextDecoration.Underline
@@ -84,38 +120,7 @@ fun HeaderWithSearchBar(toLogin: () -> Unit) {
                 onClick = { toLogin() }
             )
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Search Bar
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
-                .clip(RoundedCornerShape(24.dp)) // Rounded corners
-                .background(MaterialTheme.colorScheme.secondary), // Cream background color
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search, // Default search icon
-                    contentDescription = "Search",
-                    tint = MaterialTheme.colorScheme.onSecondary // Icon color
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Zoek op snack of ingrediënt",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color(0xFF3E5940).copy(alpha = 0.6f)
-                    )
-                )
-            }
-        }
+        SearchBar("", "Zoek op snack of ingrediënt", Modifier.padding(vertical = 10.dp))
     }
 }
 

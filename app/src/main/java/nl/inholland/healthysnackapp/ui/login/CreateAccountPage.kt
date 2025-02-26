@@ -1,27 +1,21 @@
 package nl.inholland.healthysnackapp.ui.login
 
 import android.R
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.draw.clip
-import androidx.compose.foundation.Image
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Mail
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -31,29 +25,29 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.ui.text.style.TextAlign
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun LoginPage(
-    viewModel: LoginViewModel = hiltViewModel(),
-    onLoginSuccess: (Int) -> Unit,
-    toCreateAccount: () -> Unit
-) {
+fun CreateAccountPage(toLogin: () -> Unit){
+    var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    val loginState by viewModel.loginState.collectAsState()
-
-    LaunchedEffect(loginState) {
-        when (loginState) {
-            is LoginState.Success -> onLoginSuccess((loginState as LoginState.Success).userId)
-            is LoginState.Error -> errorMessage = (loginState as LoginState.Error).message
-            else -> {}
-        }
-    }
 
     Column(
         modifier = Modifier
@@ -78,18 +72,18 @@ fun LoginPage(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(text = "Welkom!", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Leer nieuwe recepten kennen, bekijk wat je familieleden en vrienden delen en behoud een gezonde levensstijl.",
-            fontSize = 14.sp,
-            color = Color.DarkGray,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(10.dp)
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        //Name field
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Name") },
+            leadingIcon = { Icon(Icons.Filled.Person, contentDescription = null) },
+            modifier = Modifier.fillMaxWidth()
         )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
+        Spacer(modifier = Modifier.height(16.dp))
         // Email field
         OutlinedTextField(
             value = email,
@@ -118,44 +112,36 @@ fun LoginPage(
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Error message (if login fails)
-        if (errorMessage != null) {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = errorMessage!!, color = Color.Red, fontSize = 14.sp)
-        }
-
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Login Button
+        // Create account button
         Button(
-            onClick = { viewModel.login(email, password) },
+            onClick = {  },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
             shape = RoundedCornerShape(12.dp)
         ) {
-            Text(text = "Log in", color = Color.White, fontSize = 16.sp)
+            Text(text = "Creëer nieuw account", color = Color.White, fontSize = 16.sp)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Heb je nog geen account?", fontSize = 14.sp, color = Color.DarkGray)
+        Text(text = "Heb je al een account?", fontSize = 14.sp, color = Color.DarkGray)
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Create New Account Button
+        // To login Button
         Button(
-            onClick = { toCreateAccount() },
+            onClick = { toLogin() },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
             shape = RoundedCornerShape(12.dp)
         ) {
-            Text(text = "Creëer nieuw account", color = Color.Black, fontSize = 16.sp)
+            Text(text = "Inloggen", color = Color.Black, fontSize = 16.sp)
         }
     }
 }
-
-

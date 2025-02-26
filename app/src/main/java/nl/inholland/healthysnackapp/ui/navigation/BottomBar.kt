@@ -36,8 +36,7 @@ import androidx.navigation.NavController
 
 private data class BottomNavigationItem(
     val title: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
+    val icon: ImageVector,
     val navigationLink: () -> Unit
 )
 
@@ -47,26 +46,22 @@ fun NavBar(navController: NavController){
     val items = listOf(
         BottomNavigationItem(
             title = "Home",
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
+            icon = Icons.Outlined.Home,
             navigationLink = { navController.navigate("home") }
         ),
         BottomNavigationItem(
             title = "Producten",
-            selectedIcon = Icons.Filled.Inventory2,
-            unselectedIcon = Icons.Outlined.Inventory2,
+            icon = Icons.Outlined.Inventory2,
             navigationLink = { navController.navigate("products") }
         ),
         BottomNavigationItem(
             title = "Boodschappen",
-            selectedIcon = Icons.Outlined.Inventory,
-            unselectedIcon = Icons.Outlined.Inventory,
+            icon = Icons.Outlined.Inventory,
             navigationLink = { navController.navigate("shoppingList") }
         ),
         BottomNavigationItem(
             title = "Profiel",
-            selectedIcon = Icons.Filled.Person,
-            unselectedIcon = Icons.Outlined.Person,
+            icon = Icons.Outlined.Person,
             navigationLink = { navController.navigate("profile") }
         )
     )
@@ -91,9 +86,7 @@ fun NavBar(navController: NavController){
                     },
                     icon = {
                         Icon(
-                            imageVector = if (index == selectedItemIndex) {
-                                item.selectedIcon
-                            } else item.unselectedIcon,
+                            imageVector = item.icon,
                             contentDescription = item.title,
                             tint = MaterialTheme.colorScheme.onPrimary
                         )

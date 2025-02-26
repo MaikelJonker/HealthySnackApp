@@ -6,18 +6,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import nl.inholland.healthysnackapp.data.modules.RecipeApi
-import nl.inholland.healthysnackapp.data.repositories.RecipeRepository
+import nl.inholland.healthysnackapp.data.UserInfo.SessionManager
+import nl.inholland.healthysnackapp.data.modules.Api
+import nl.inholland.healthysnackapp.data.repositories.ApiRepository
 import nl.inholland.healthysnackapp.models.User
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    @RecipeApi private val recipeRepository: RecipeRepository
+    @Api private val apiRepository: ApiRepository,
+    private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    fun getUser(userId: Int): Flow<User?> = flow {
-        emit(recipeRepository.getUsers().find { user-> user.id == userId })
+    fun getUser(): Flow<User?> = flow {
+        if(sessionManager.getUserId() != null) {
+            emit(apiRepository.getUsers().find { user -> user.id == sessionManager.getUserId() })
+        }
     }.flowOn(Dispatchers.IO)
 
+    fun logout(toHome: () -> Unit) {
+        sessionManager.clearSession()
+        toHome()
+    }
 }
