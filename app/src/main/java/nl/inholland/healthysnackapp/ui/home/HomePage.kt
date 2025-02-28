@@ -1,14 +1,16 @@
 package nl.inholland.healthysnackapp.ui.home
 
+import android.R
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -24,11 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
 import nl.inholland.healthysnackapp.models.Recipe
 import nl.inholland.healthysnackapp.models.User
@@ -68,31 +73,49 @@ fun HomePage(
 }
 
 @Composable
-fun ProfileHeaderWithSearchBar(user: User){
+fun ProfileHeaderWithSearchBar(user: User) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.primary)
             .padding(16.dp)
     ) {
-        // Header Text
-        Text(
-            text = "Goedemorgen, ${user.name}",
-            style = MaterialTheme.typography.titleLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimary,
-                fontWeight = FontWeight.Bold
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically // Align items vertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f) // Pushes the image to the right
+            ) {
+                // Header Text
+                Text(
+                    text = "Goedemorgen, ${user.name}",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+                Text(
+                    text = "Wat wil je vandaag bereiden?",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
+                        textDecoration = TextDecoration.Underline
+                    )
+                )
+            }
+            Image(
+                painter = painterResource(id = R.drawable.ic_menu_gallery),
+                contentDescription = "Child Image",
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
             )
-        )
-        Text(
-            text = "Wat wil je vandaag bereiden?",
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
-                textDecoration = TextDecoration.Underline
-            )
-        )
+        }
         SearchBar("", "Zoek op snack of ingrediënt", Modifier.padding(vertical = 10.dp))
     }
 }
+
 
 @Composable
 fun HeaderWithSearchBar(toLogin: () -> Unit) {
@@ -204,18 +227,40 @@ fun SnackGrid(viewModel: HomeViewModel, toDetail: (Int) -> Unit) {
     )
 
     // Split the recipes into chunks of 2 for a 2-column grid
-    recipes.chunked(2).forEachIndexed { rowIndex, rowRecipes ->
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+    if(recipes != emptyList<Recipe>()) {
+        recipes.chunked(2).forEachIndexed { rowIndex, rowRecipes ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                rowRecipes.forEachIndexed { index, recipe ->
+                    val color = colors[(rowIndex * 2 + index) % colors.size]
+                    val subColor = subColors[(rowIndex * 2 + index) % subColors.size]
+                    RecipeCard(
+                        recipe = recipe,
+                        color = color,
+                        subColor = subColor,
+                        modifier = Modifier.weight(1f),
+                        toDetail
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+    }
+    else{
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
         ) {
-            rowRecipes.forEachIndexed { index, recipe ->
-                val color = colors[(rowIndex * 2 + index) % colors.size]
-                val subColor = subColors[(rowIndex * 2 + index) % subColors.size]
-                RecipeCard(recipe = recipe, color = color, subColor = subColor, modifier = Modifier.weight(1f), toDetail)
+            Text("Kan recepten niet laden")
+            Button(
+                onClick = { viewModel.loadRecipes() }
+            ) {
+                Text("Verversen")
             }
         }
-        Spacer(modifier = Modifier.height(10.dp))
     }
 }
 

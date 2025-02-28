@@ -1,5 +1,8 @@
 package nl.inholland.healthysnackapp.ui.productDetail
 
+import androidx.annotation.DrawableRes
+import nl.inholland.healthysnackapp.R
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,10 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import nl.inholland.healthysnackapp.models.Nutrient
@@ -177,8 +178,11 @@ fun NutritionalTable(nutrients: List<Nutrient>) {
 }
 
 @Composable
-fun ProductTags(product: Product){
-    Column {
+fun ProductTags(product: Product) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.Start,
+    ) {
         if (product.isVegan) {
             Text(
                 text = "Vegan",
@@ -203,28 +207,23 @@ fun ProductTags(product: Product){
                     .padding(8.dp)
             )
         }
-        val nutriScore = product.nutriScore.uppercase() // Ensure uppercase
-        val nutriScoreColor = when (nutriScore) {
-            "A" -> Color(0xFF007F00) // Dark Green
-            "B" -> Color(0xFF60A917) // Light Green
-            "C" -> Color(0xFFFFC107) // Yellow
-            "D" -> Color(0xFFFF5722) // Orange
-            "E" -> Color(0xFFD32F2F) // Red
-            else -> Color.Gray // Default for unknown values
-        }
-        Text(
-            text = buildAnnotatedString {
-                append("Nutri-score: ") // Regular text
-                withStyle(style = SpanStyle(color = nutriScoreColor, fontWeight = FontWeight.Bold)) {
-                    append(nutriScore) // Colored letter
-                }
-            },
-            modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    shape = RoundedCornerShape(8.dp)
-                )
+        Image(
+            painter = painterResource(id = getNutriScoreDrawable(product.nutriScore)),
+            contentDescription = "Nutri-score ${product.nutriScore}",
+            modifier = Modifier.size(80.dp)
         )
+    }
+}
+
+@DrawableRes
+fun getNutriScoreDrawable(letter: String): Int {
+    return when (letter.lowercase()) {
+        "a" -> R.drawable.nutri_a
+        "b" -> R.drawable.nutri_b
+        "c" -> R.drawable.nutri_c
+        "d" -> R.drawable.nutri_d
+        "e" -> R.drawable.nutri_e
+        else -> R.drawable.nutri_e
     }
 }
 

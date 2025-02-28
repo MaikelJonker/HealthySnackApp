@@ -7,7 +7,9 @@ import androidx.annotation.OptIn
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +35,7 @@ import kotlinx.coroutines.asExecutor
 @Composable
 fun BarcodeScannerDialog(onDismiss: () -> Unit, onBarcodeScanned: (String) -> Unit) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
     var scannedBarcode by remember { mutableStateOf<String?>(null) }
 
@@ -52,9 +56,7 @@ fun BarcodeScannerDialog(onDismiss: () -> Unit, onBarcodeScanned: (String) -> Un
                 modifier = Modifier.fillMaxSize(),
                 factory = { ctx ->
                     val frameLayout = FrameLayout(ctx)
-                    val cameraProvider = cameraProviderFuture.get()
-
-                    val previewView = androidx.camera.view.PreviewView(ctx).apply {
+                    val previewView = PreviewView(ctx).apply {
                         layoutParams = ViewGroup.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
@@ -62,7 +64,12 @@ fun BarcodeScannerDialog(onDismiss: () -> Unit, onBarcodeScanned: (String) -> Un
                     }
                     frameLayout.addView(previewView)
 
-                    val preview = androidx.camera.core.Preview.Builder().build().also {
+                    val cameraProvider = cameraProviderFuture.get()
+
+                    // **Unbind all previous use cases before rebinding to prevent crashes**
+                    cameraProvider.unbindAll()
+
+                    val preview = Preview.Builder().build().also {
                         it.setSurfaceProvider(previewView.surfaceProvider)
                     }
 
@@ -93,8 +100,10 @@ fun BarcodeScannerDialog(onDismiss: () -> Unit, onBarcodeScanned: (String) -> Un
                     }
 
                     val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+                    // Bind use cases (after unbinding old ones)
                     cameraProvider.bindToLifecycle(
-                        context as androidx.lifecycle.LifecycleOwner,
+                        lifecycleOwner,
                         cameraSelector,
                         preview,
                         imageAnalysis

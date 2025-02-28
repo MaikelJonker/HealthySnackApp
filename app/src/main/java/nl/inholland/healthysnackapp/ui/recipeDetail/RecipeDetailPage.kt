@@ -16,7 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +25,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -112,19 +115,19 @@ fun RecipeDetailPage(
                     )
 
                     it.ingredients.forEach { ingredient ->
+
+                        var isChecked by remember { mutableStateOf(false) }
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 4.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.secondary,
-                                        shape = RoundedCornerShape(4.dp)
-                                    )
+                            Checkbox(
+                                checked = isChecked,
+                                onCheckedChange = { isChecked = it },
+                                modifier = Modifier.size(24.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
@@ -136,7 +139,6 @@ fun RecipeDetailPage(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Necessities Section
                     Text(
                         text = "Benodigdheden",
                         fontSize = 18.sp,
@@ -153,7 +155,6 @@ fun RecipeDetailPage(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Start Recipe Button
                     Button(
                         onClick = { onStartRecipeClick(recipeId, 1) },
 
@@ -200,7 +201,6 @@ fun DetailBadge(text: String) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     recipeId: Int,

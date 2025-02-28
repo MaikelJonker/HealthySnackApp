@@ -36,7 +36,7 @@ fun RecipeStep(
 
     val recipe = viewModel.recipe.collectAsState().value
 
-    Column() {
+    Column {
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primary)
@@ -55,7 +55,7 @@ fun RecipeStep(
                     )
                 }
                 Text(
-                    text = "Stap ${recipeStep} van ${recipe?.steps?.size}",
+                    text = "Stap $recipeStep van ${recipe?.steps?.size}",
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold

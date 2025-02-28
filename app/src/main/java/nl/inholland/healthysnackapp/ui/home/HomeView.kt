@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
         loadRecipes()
     }
 
-    private fun loadRecipes() {
+     fun loadRecipes() {
         viewModelScope.launch {
             _recipes.value = service.getAllRecipes()
         }

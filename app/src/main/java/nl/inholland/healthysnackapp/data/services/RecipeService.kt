@@ -1,5 +1,6 @@
 package nl.inholland.healthysnackapp.data.services
 
+import android.util.Log
 import nl.inholland.healthysnackapp.data.modules.Api
 import nl.inholland.healthysnackapp.data.repositories.ApiRepository
 import nl.inholland.healthysnackapp.models.Recipe
